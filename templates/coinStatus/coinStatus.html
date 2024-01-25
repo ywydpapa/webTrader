@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include './header.html' %}
     <meta charset="UTF-8">
     <title>CoinStatus</title>
 </head>
 <body>
-{% for i in results["series"][0]["values"] %}
-    {{ i[7],i[3],i[5],i[10] }}<br>
-{%  endfor %}
+<div id="commonTopHeader">
+    {% include './comTopHeader.html' %}      
+</div>
 
-<div>
-     <div>시간별(건)</div>
-     <canvas id="hourChart" width="792" height="400"></canvas>
+<div id="commonBodyContents">
+    {% include './sideMenu.html' %}
+    
+    <div id="commonContent">
+        <div class="container">
+            {% for i in results["series"][0]["values"] %}
+                {{ i[7],i[3],i[5],i[10] }}<br>
+            {%  endfor %}
+
+            <div>시간별(건)</div>
+            <canvas id="hourChart" height="100"></canvas>
+        </div>
+    </div>
 </div>
 </body>
 <script>
@@ -24,18 +35,23 @@
         let hour = {{results|tojson}};
         let dateArr = [];
         let dataArr = [];
+        let colorArr = [];
         let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
 
         for (let i = 0; i < hour["series"][0]["values"].length; i++) {
             let item = hour["series"][0]["values"][i];
-            let setDate = new Date(item[2]).getTime();
+            let setDate = new Date(item[7]).getTime();
             setDate = setDate + KR_TIME_DIFF;
             setDate = new Date(setDate).toISOString();
             let date = setDate.substring(5, 10) + " " + setDate.substring(11, 19);
-            let value = item[1];
-
+            let value = item[3];
             dateArr.push(date);
             dataArr.push(value);
+
+            console.log(value);
+            
+            if(value > 100) colorArr.push("#6799FF")
+            else colorArr.push("#F15F5F");
         }
 
         new Chart(hourChart, {
@@ -46,7 +62,7 @@
                     {
                         label: "시간별 데이터",
                         data: dataArr,
-                        backgroundColor: "#6799FF",
+                        backgroundColor: colorArr,
                         radius: 0,
                         borderWidth: 1,
                     },

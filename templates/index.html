@@ -5,6 +5,12 @@
     <title>vCoin Manager</title>
 </head>
 <body>
-
+    <label for="cointyp">코인선택</label>
+    <select name="cointype" id="cointyp">
+    <option value="">--</option>
+        {% for coin in coinlist %}
+        <option value={{ coin }}>{{ coin }}</option>
+        {% endfor %}
+    </select>
 </body>
 </html>

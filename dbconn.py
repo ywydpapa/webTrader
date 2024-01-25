@@ -1,4 +1,6 @@
 from influxdb import InfluxDBClient
+import pyupbit
+
 
 host = '192.168.108.147'
 port = 8086
@@ -32,3 +34,13 @@ def coinStat10(coinname):
     rows = client.query(sql)
     client.close()
     return rows._raw;
+
+def coinCombo():
+    coins = []
+    coinlist = pyupbit.get_tickers()
+    for coin in coinlist:
+        if coin.startswith("KRW"):
+            coins = coins + [coin]
+        else:
+            pass
+    return coins

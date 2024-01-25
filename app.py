@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return render_template('./index.html')
+    return render_template('./index.html', coinlist = dbconn.coinCombo())
 
 @app.route('/coin60/<coinName>')
 def recomm60(coinName):
@@ -21,4 +21,4 @@ def recomm10(coinName):
     return render_template('./coinStatus/coinStatus.html', results=dbconn.coinStat10(coinName))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='0.0.0.0', port=5000)

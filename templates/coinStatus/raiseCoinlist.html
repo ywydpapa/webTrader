@@ -3,7 +3,7 @@
 <head>
     {% include './header.html' %}
     <meta charset="UTF-8">
-    <title>추천 코인 리스트</title>
+    <title>Raise Coins</title>
 </head>
 <body>
 <div id="commonTopHeader">
@@ -12,8 +12,66 @@
 
 <div id="commonBodyContents">
     {% include './sideMenu.html' %}
+
     <div id="commonContent">
+        <div class="container">
+        선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
+            {% for i in results["series"][0]["values"] %}
+            {{ i[7],i[1],i[2],i[3],i[5],i[6],i[9],i[11] }}<br>
+            {%  endfor %}
+            <canvas id="hourChart" height="100"></canvas>
+        </div>
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function () {
+        hourChartSet();
+        let urlnew1 = "/coinrate10/{{ results["series"][0]["values"][0][4] }}"
+        let urlnew2 = "/coinrate30/{{ results["series"][0]["values"][0][4] }}"
+        let urlnew3 = "/coinrate60/{{ results["series"][0]["values"][0][4] }}"
+        document.getElementById("m10").setAttribute("href",urlnew1)
+        document.getElementById("m30").setAttribute("href",urlnew2)
+        document.getElementById("m60").setAttribute("href",urlnew3)
+    });
+
+    function hourChartSet() {
+        let hourChart = document.getElementById("hourChart").getContext('2d');
+        let hour = {{results|tojson}};
+        let dateArr = [];
+        let dataArr = [];
+        let colorArr = [];
+        let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+
+        for (let i = 0; i < hour["series"][0]["values"].length; i++) {
+            let item = hour["series"][0]["values"][i];
+            let setDate = new Date(item[7]).getTime();
+            setDate = setDate + KR_TIME_DIFF;
+            setDate = new Date(setDate).toISOString();
+            let date = setDate.substring(5, 10) + " " + setDate.substring(11, 19);
+            let value = item[3];
+            dateArr.unshift(date);
+            dataArr.unshift(value);
+            console.log(value);
+            if(value >= 100) colorArr.unshift("#F15F5F")
+            else colorArr.unshift("#6799FF");
+        }
+
+        new Chart(hourChart, {
+            type: "bar",
+            data: {
+                labels: dateArr,
+                datasets: [
+                    {
+                        label: "매수/매도비율",
+                        data: dataArr,
+                        backgroundColor: colorArr,
+                        radius: 0,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+        });
+    }
+</script>
 </html>

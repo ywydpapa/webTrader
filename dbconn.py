@@ -35,6 +35,33 @@ def coinStat10(coinname):
     client.close()
     return rows._raw;
 
+def coinRate10(coinname):
+    rows = None
+    client = None
+    client = InfluxDBClient(host, port, user, password, dbname)
+    sql = "SELECT * FROM CoinStatus where COIN = "+"'"+coinname+"'"+" order by time desc limit 150 tz('Asia/Seoul')"
+    rows = client.query(sql)
+    client.close()
+    return rows._raw;
+
+def coinRate30(coinname):
+    rows = None
+    client = None
+    client = InfluxDBClient(host, port, user, password, dbname)
+    sql = "SELECT * FROM CoinStatus where COIN = "+"'"+coinname+"'"+" order by time desc limit 450 tz('Asia/Seoul')"
+    rows = client.query(sql)
+    client.close()
+    return rows._raw;
+
+def coinRate60(coinname):
+    rows = None
+    client = None
+    client = InfluxDBClient(host, port, user, password, dbname)
+    sql = "SELECT * FROM CoinStatus where COIN = "+"'"+coinname+"'"+" order by time desc limit 900 tz('Asia/Seoul')"
+    rows = client.query(sql)
+    client.close()
+    return rows._raw;
+
 def coinCombo():
     coins = []
     coinlist = pyupbit.get_tickers()

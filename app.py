@@ -20,9 +20,17 @@ def recomm30(coinName):
 def recomm10(coinName):
     return render_template('./coinStatus/coinStatus.html', results=dbconn.coinStat10(coinName))
 
-@app.route('/raisecoin')
-def raiseCoin():
-    return render_template('./coinStatus/raiseCoinlist.html')
+@app.route('/coinrate10/<coinName>')
+def raiseCoin10(coinName):
+    return render_template('./coinStatus/raiseCoinlist.html', results=dbconn.coinRate10(coinName))
+
+@app.route('/coinrate30/<coinName>')
+def raiseCoin30(coinName):
+    return render_template('./coinStatus/raiseCoinlist.html', results=dbconn.coinRate30(coinName))
+
+@app.route('/coinrate60/<coinName>')
+def raiseCoin60(coinName):
+    return render_template('./coinStatus/raiseCoinlist.html', results=dbconn.coinRate60(coinName))
 
 @app.route('/setup')
 def setup():

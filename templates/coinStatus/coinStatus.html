@@ -27,6 +27,12 @@
 <script>
     $(document).ready(function () {
         hourChartSet();
+        let urlnew1 = "/coin10/{{ results["series"][0]["values"][0][4] }}"
+        let urlnew2 = "/coin30/{{ results["series"][0]["values"][0][4] }}"
+        let urlnew3 = "/coin60/{{ results["series"][0]["values"][0][4] }}"
+        document.getElementById("m10").setAttribute("href",urlnew1)
+        document.getElementById("m30").setAttribute("href",urlnew2)
+        document.getElementById("m60").setAttribute("href",urlnew3)
     });
 
     function hourChartSet() {
@@ -47,8 +53,8 @@
             dateArr.unshift(date);
             dataArr.unshift(value);
             console.log(value);
-            if(value >= 100) colorArr.push("#F15F5F")
-            else colorArr.push("#6799FF");
+            if(value >= 100) colorArr.unshift("#F15F5F")
+            else colorArr.unshift("#6799FF");
         }
 
         new Chart(hourChart, {
@@ -57,7 +63,7 @@
                 labels: dateArr,
                 datasets: [
                     {
-                        label: "시간별 데이터",
+                        label: "매수/매도비율",
                         data: dataArr,
                         backgroundColor: colorArr,
                         radius: 0,

@@ -20,5 +20,13 @@ def recomm30(coinName):
 def recomm10(coinName):
     return render_template('./coinStatus/coinStatus.html', results=dbconn.coinStat10(coinName))
 
+@app.route('/raisecoin')
+def raiseCoin():
+    return render_template('./coinStatus/raiseCoinlist.html')
+
+@app.route('/setup')
+def setup():
+    return render_template('./setup/setupmain.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

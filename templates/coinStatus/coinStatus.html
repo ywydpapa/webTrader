@@ -15,11 +15,10 @@
     
     <div id="commonContent">
         <div class="container">
+        선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
             {% for i in results["series"][0]["values"] %}
                 {{ i[7],i[3],i[5],i[10] }}<br>
             {%  endfor %}
-
-            <div>시간별(건)</div>
             <canvas id="hourChart" height="100"></canvas>
         </div>
     </div>
@@ -45,13 +44,11 @@
             setDate = new Date(setDate).toISOString();
             let date = setDate.substring(5, 10) + " " + setDate.substring(11, 19);
             let value = item[3];
-            dateArr.push(date);
-            dataArr.push(value);
-
+            dateArr.unshift(date);
+            dataArr.unshift(value);
             console.log(value);
-            
-            if(value > 100) colorArr.push("#6799FF")
-            else colorArr.push("#F15F5F");
+            if(value >= 100) colorArr.push("#F15F5F")
+            else colorArr.push("#6799FF");
         }
 
         new Chart(hourChart, {

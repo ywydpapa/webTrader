@@ -28,6 +28,9 @@
 <script>
     function selectChange(thisEle){
         location.href = "/coin10/" + thisEle.value;
+        session.setAttribute("selcoin10", "/coin10/" + thisEle.value);
+        session.setAttribute("selcoin30", "/coin30/" + thisEle.value);
+        session.setAttribute("selcoin60", "/coin60/" + thisEle.value);
     }
 </script>
 </html>

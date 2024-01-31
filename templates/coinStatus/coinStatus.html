@@ -16,10 +16,11 @@
     <div id="commonContent">
         <div class="container">
         선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
+            <canvas id="hourChart" height="100"></canvas>
             {% for i in results["series"][0]["values"] %}
                 {{ i[7],i[3],i[5],i[10] }}<br>
             {%  endfor %}
-            <canvas id="hourChart" height="100"></canvas>
+
         </div>
     </div>
 </div>

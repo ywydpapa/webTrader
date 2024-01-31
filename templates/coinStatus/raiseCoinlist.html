@@ -40,7 +40,7 @@
         let hourChart = document.getElementById("hourChart").getContext('2d');
         let hour = {{results|tojson}};
         let dateArr = [], datas_1 = [], datas_2 = [], datas_3 = [], datas_4 = [], datas_5 = [];
-        let dataObject1 = {}, dataObject2 = {}, dataObject3 = {}, dataObject4 = {}, dataObject5={};
+        let dataObject1 = {}, dataObject2 = {}, dataObject3 = {}, dataObject4 = {}, dataObject5 = {};
         let randomColor1 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor2 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor3 = "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -113,7 +113,7 @@
     }
 
     function hourChartSet2() {
-        let hourChart = document.getElementById("hourChart2").getContext('2d');
+        let hourChart2 = document.getElementById("hourChart2").getContext('2d');
         let hour = {{results|tojson}};
         let dateArrB = [], datas_1B = [], datas_2B = [], datas_3B = [], datas_4B = [],datas_5B = [],datas_6B = [],datas_7B = [],datas_8B = [],datas_9B = [],datas_10B = [];
         let dataObject1B = {}, dataObject2B = {}, dataObject3B = {}, dataObject4B = {}, dataObject5B = {}, dataObject6B = {}, dataObject7B = {}, dataObject8B = {}, dataObject9B = {}, dataObject10B = {};

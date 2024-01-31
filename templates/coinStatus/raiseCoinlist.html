@@ -16,7 +16,10 @@
     <div id="commonContent">
         <div class="container">
         선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
+            ASK RATE<br>
             <canvas id="hourChart" height="100"></canvas>
+            BID RATE<br>
+            <canvas id="hourChart2" height="100"></canvas>
         </div>
     </div>
 </div>
@@ -24,6 +27,7 @@
 <script>
     $(document).ready(function () {
         hourChartSet();
+        hourChartSet2();
         let urlnew1 = "/coinrate10/{{ results["series"][0]["values"][0][4] }}"
         let urlnew2 = "/coinrate30/{{ results["series"][0]["values"][0][4] }}"
         let urlnew3 = "/coinrate60/{{ results["series"][0]["values"][0][4] }}"
@@ -35,12 +39,13 @@
     function hourChartSet() {
         let hourChart = document.getElementById("hourChart").getContext('2d');
         let hour = {{results|tojson}};
-        let dateArr = [], datas_1 = [], datas_2 = [], datas_3 = [], datas_4 = [];
-        let dataObject1 = {}, dataObject2 = {}, dataObject3 = {}, dataObject4 = {};
+        let dateArr = [], datas_1 = [], datas_2 = [], datas_3 = [], datas_4 = [], datas_5 = [];
+        let dataObject1 = {}, dataObject2 = {}, dataObject3 = {}, dataObject4 = {}, dataObject5={};
         let randomColor1 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor2 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor3 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor4 = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor5 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
         
         for (let i = 0; i < hour["series"][0]["values"].length; i++) {
@@ -60,21 +65,26 @@
                 datas_3.push(value);
             }else if(parseInt(item[6]) == 4){
                 datas_4.push(value);
+            }else if(parseInt(item[6]) == 5){
+                datas_5.push(value);
             }
         }
         
-        dataObject1.label = 1;
+        dataObject1.label = "ASK1";
         dataObject1.data = datas_1;
         dataObject1.backgroundColor = randomColor1;
-        dataObject2.label = 2;
+        dataObject2.label = "ASK2";
         dataObject2.data = datas_2;
         dataObject2.backgroundColor = randomColor2;
-        dataObject3.label = 3;
+        dataObject3.label = "ASK3";
         dataObject3.data = datas_3;
         dataObject3.backgroundColor = randomColor3;
-        dataObject4.label = 4;
+        dataObject4.label = "ASK4";
         dataObject4.data = datas_4;
         dataObject4.backgroundColor = randomColor4;
+        dataObject5.label = "ASK5";
+        dataObject5.data = datas_5;
+        dataObject5.backgroundColor = randomColor5;
 
         new Chart(hourChart, {
             type: "bar",
@@ -84,7 +94,119 @@
                     dataObject1,
                     dataObject2,
                     dataObject3,
-                    dataObject4
+                    dataObject4,
+                    dataObject5
+                ],
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    }
+
+    function hourChartSet2() {
+        let hourChart = document.getElementById("hourChart2").getContext('2d');
+        let hour = {{results|tojson}};
+        let dateArrB = [], datas_1B = [], datas_2B = [], datas_3B = [], datas_4B = [],datas_5B = [],datas_6B = [],datas_7B = [],datas_8B = [],datas_9B = [],datas_10B = [];
+        let dataObject1B = {}, dataObject2B = {}, dataObject3B = {}, dataObject4B = {}, dataObject5B = {}, dataObject6B = {}, dataObject7B = {}, dataObject8B = {}, dataObject9B = {}, dataObject10B = {};
+        let randomColor1B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor2B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor3B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor4B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor5B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor6B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor7B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor8B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor9B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let randomColor10B = "#" + Math.floor(Math.random() * 16777215).toString(16);
+        let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+
+        for (let i = 0; i < hour["series"][0]["values"].length; i++) {
+            let item = hour["series"][0]["values"][i];
+            let value = item[11] / item[2] * 100;
+
+            if(parseInt(item[6]) == 1){
+                let setDateB = new Date(item[7]).getTime();
+                setDateB = setDateB + KR_TIME_DIFF;
+                setDateB = new Date(setDateB).toISOString();
+                let dateB = setDateB.substring(5, 10) + " " + setDateB.substring(11, 19);
+                dateArrB.unshift(dateB);
+                datas_1B.push(value);
+            }else if(parseInt(item[6]) == 2){
+                datas_2B.push(value);
+            }else if(parseInt(item[6]) == 3){
+                datas_3B.push(value);
+            }else if(parseInt(item[6]) == 4){
+                datas_4B.push(value);
+            }else if(parseInt(item[6]) == 5){
+                datas_5B.push(value);
+            }else if(parseInt(item[6]) == 6){
+                datas_6B.push(value);
+            }else if(parseInt(item[6]) == 7){
+                datas_7B.push(value);
+            }else if(parseInt(item[6]) == 8){
+                datas_8B.push(value);
+            }else if(parseInt(item[6]) == 9){
+                datas_9B.push(value);
+            }else if(parseInt(item[6]) == 10){
+                datas_10B.push(value);
+            }
+        }
+
+        dataObject1B.label = "BID1";
+        dataObject1B.data = datas_1B;
+        dataObject1B.backgroundColor = randomColor1B;
+        dataObject2B.label = "BID2";
+        dataObject2B.data = datas_2B;
+        dataObject2B.backgroundColor = randomColor2B;
+        dataObject3B.label = "BID3";
+        dataObject3B.data = datas_3B;
+        dataObject3B.backgroundColor = randomColor3B;
+        dataObject4B.label = "BID4";
+        dataObject4B.data = datas_4B;
+        dataObject4B.backgroundColor = randomColor4B;
+        dataObject5B.label = "BID5";
+        dataObject5B.data = datas_5B;
+        dataObject5B.backgroundColor = randomColor5B;
+        dataObject6B.label = "BID6";
+        dataObject6B.data = datas_6B;
+        dataObject6B.backgroundColor = randomColor6B;
+        dataObject7B.label = "BID7";
+        dataObject7B.data = datas_7B;
+        dataObject7B.backgroundColor = randomColor7B;
+        dataObject8B.label = "BID8";
+        dataObject8B.data = datas_8B;
+        dataObject8B.backgroundColor = randomColor8B;
+        dataObject9B.label = "BID9";
+        dataObject9B.data = datas_9B;
+        dataObject9B.backgroundColor = randomColor9B;
+        dataObject10B.label = "BID10";
+        dataObject10B.data = datas_10B;
+        dataObject10B.backgroundColor = randomColor10B;
+
+        new Chart(hourChart2, {
+            type: "bar",
+            data: {
+                labels: dateArrB,
+                datasets: [
+                    dataObject1B,
+                    dataObject2B,
+                    dataObject3B,
+                    dataObject4B,
+                    dataObject5B,
+                    dataObject6B,
+                    dataObject7B,
+                    dataObject8B,
+                    dataObject9B,
+                    dataObject10B
                 ],
             },
             options: {

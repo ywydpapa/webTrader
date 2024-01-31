@@ -16,9 +16,6 @@
     <div id="commonContent">
         <div class="container">
         선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
-            {% for i in results["series"][0]["values"] %}
-            {{ i[7],i[1],i[2],i[3],i[5],i[6],i[9],i[11] }}<br>
-            {%  endfor %}
             <canvas id="hourChart" height="100"></canvas>
         </div>
     </div>
@@ -38,7 +35,7 @@
     function hourChartSet() {
         let hourChart = document.getElementById("hourChart").getContext('2d');
         let hour = {{results|tojson}};
-        let dateArr = [], dataLabel_1 = [], dataLabel_2 = [], dataLabel_3 = [], dataLabel_4 = [], datas_1 = [], datas_2 = [], datas_3 = [], datas_4 = [];
+        let dateArr = [], datas_1 = [], datas_2 = [], datas_3 = [], datas_4 = [];
         let dataObject1 = {}, dataObject2 = {}, dataObject3 = {}, dataObject4 = {};
         let randomColor1 = "#" + Math.floor(Math.random() * 16777215).toString(16);
         let randomColor2 = "#" + Math.floor(Math.random() * 16777215).toString(16);

@@ -8,6 +8,10 @@ app = Flask(__name__)
 def hello_world():  # put application's code here
     return render_template('./index.html', coinlist = dbconn.coinCombo())
 
+@app.route('/coinrate')
+def indexrate():  # put application's code here
+    return render_template('./indexrate.html', coinlist = dbconn.coinCombo())
+
 @app.route('/coin60/<coinName>')
 def recomm60(coinName):
     return render_template('./coinStatus/coinStatus.html', results=dbconn.coinStat60(coinName))

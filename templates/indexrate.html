@@ -3,20 +3,20 @@
 <head>
     {% include './header.html' %}
     <meta charset="UTF-8">
-    <title>Coin Ask/Bid Rate</title>
+    <title>Coin ASK Rate</title>
 </head>
 <body>
     <div id="commonTopHeader">
-        {% include './comTopHeader.html' %}      
+        {% include './comTopHeader.html' %}
     </div>
-    
+
     <div id="commonBodyContents">
         {% include './sideMenu.html' %}
-        
+
         <div id="commonContent">
             <div class="container">
                 <label for="cointyp">코인선택</label>
-                <select name="cointype" id="cointyp" onchange="selectChange(this);">
+                <select name="cointype" id="cointyp" onchange="selectRate(this);">
                     <option value="">--</option>
                     {% for coin in coinlist %}
                     <option value={{ coin }}>{{ coin }}</option>
@@ -26,8 +26,8 @@
         </div>
 </body>
 <script>
-    function selectChange(thisEle){
-        location.href = "/coin10/" + thisEle.value;
+    function selectRate(thisEle){
+        location.href = "/coinrate10/" + thisEle.value;
     }
 </script>
 </html>

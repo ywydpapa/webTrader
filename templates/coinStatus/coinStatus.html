@@ -78,7 +78,11 @@
             let indxitem = indx["series"][0]["values"][j];
             let val = indxitem[3];
             score = score * val / 100;
-            console.log(score)
+            if (score < 10){
+                score = score + 5;
+            } else if (score > 1000){
+                score = score/3;
+            }
         }
         $('#sco').text(score);
     }

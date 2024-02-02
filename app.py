@@ -36,6 +36,10 @@ def raiseCoin30(coinName):
 def raiseCoin60(coinName):
     return render_template('./coinStatus/raiseCoinlist.html', results=dbconn.coinRate60(coinName))
 
+@app.route('/coinScore10')
+def coinScore10():
+    return render_template('./coinStatus/coinScore10.html', results=dbconn.getScore10())
+
 @app.route('/setup')
 def setup():
     return render_template('./setup/setupmain.html')

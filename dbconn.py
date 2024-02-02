@@ -1,6 +1,8 @@
+import json
+
 from influxdb import InfluxDBClient
 import pyupbit
-
+from flask import jsonify
 
 host = '192.168.108.147'
 port = 8086
@@ -70,4 +72,13 @@ def coinCombo():
             coins = coins + [coin]
         else:
             pass
-    return coins
+    return coins;
+
+def getScore10():
+    rows = None
+    client = None
+    client = InfluxDBClient(host, port, user, password, dbname)
+    sql = "SELECT * FROM CoinStatus where Serial = '1' order by time desc limit 1300 tz('Asia/Seoul')"
+    rows = client.query(sql)
+    client.close()
+    return rows._raw;

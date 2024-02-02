@@ -50,8 +50,9 @@ while True:
                 insdata = [{'measurement': measurement,'tags': tags, 'fields': fields}]
                 client.write_points(insdata)
                 cnt = cnt+1
+            print(cnt2)
             time.sleep(0.5)
+
         else:
             pass
-        print(cnt2)
     cnt2=cnt2+1

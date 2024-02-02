@@ -36,14 +36,11 @@ while True:
             print("BuyRate : ", buyrate)
             if totalbid > totalask:
                 mktsts = 'DOWN'
-                print(mktsts)
             else:
                 mktsts = 'RAISE'
-                print(mktsts)
             units = curprice['orderbook_units']
             cnt = 1
             for unit in units:
-                print(cnt,':',unit)
                 measurement = 'CoinStatus'
                 tags = {'COIN':coinName, 'TimeStamp': timestm , 'AskAmt':totalask, 'BidAmt': totalbid, 'BuyRate': buyrate, 'MarketStatus': mktsts, 'Serial':cnt}
                 fields = {'ask_price':float(unit['ask_price']),'bid_price':float(unit['bid_price']),'ask_size':float(unit['ask_size']),

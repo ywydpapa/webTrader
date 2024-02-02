@@ -42,9 +42,11 @@ while True:
             cnt = 1
             for unit in units:
                 measurement = 'CoinStatus'
+                askrate = float(unit['ask_size'])/float(totalask)*100
+                bidrate = float(unit['bid_size'])/float(totalbid)*100
                 tags = {'COIN':coinName, 'TimeStamp': timestm , 'AskAmt':totalask, 'BidAmt': totalbid, 'BuyRate': buyrate, 'MarketStatus': mktsts, 'Serial':cnt}
                 fields = {'ask_price':float(unit['ask_price']),'bid_price':float(unit['bid_price']),'ask_size':float(unit['ask_size']),
-                          'bid_size':float(unit['bid_size']), 'ask_rate':float(unit['ask_size'])/float(totalask)*100, 'bid_rate':float(unit['bid_size'])/float(totalbid)*100}
+                          'bid_size':float(unit['bid_size']), 'ask_rate': float(askrate), 'bid_rate':float(bidrate)}
                 insdata = [{'measurement': measurement,'tags': tags, 'fields': fields}]
                 client.write_points(insdata)
                 cnt = cnt+1

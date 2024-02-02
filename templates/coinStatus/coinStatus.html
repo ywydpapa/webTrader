@@ -17,10 +17,7 @@
         <div class="container">
         선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
             <canvas id="hourChart" height="100"></canvas>
-            {% for i in results["series"][0]["values"] %}
-                {{ i[7],i[3],i[5],i[10] }}<br>
-            {%  endfor %}
-
+            코인 점수 : <div id = "sco"></div>
         </div>
     </div>
 </div>
@@ -28,6 +25,7 @@
 <script>
     $(document).ready(function () {
         hourChartSet();
+        calScore();
         let urlnew1 = "/coin10/{{ results["series"][0]["values"][0][4] }}"
         let urlnew2 = "/coin30/{{ results["series"][0]["values"][0][4] }}"
         let urlnew3 = "/coin60/{{ results["series"][0]["values"][0][4] }}"
@@ -53,7 +51,6 @@
             let value = item[3];
             dateArr.unshift(date);
             dataArr.unshift(value);
-            console.log(value);
             if(value >= 100) colorArr.unshift("#F15F5F")
             else colorArr.unshift("#6799FF");
         }
@@ -73,6 +70,17 @@
                 ],
             },
         });
+    }
+    function calScore() {
+        let score = 100;
+        let indx = {{ results|tojson}};
+        for (let j = 0; j < indx["series"][0]["values"].length; j++){
+            let indxitem = indx["series"][0]["values"][j];
+            let val = indxitem[3];
+            score = score * val / 100;
+            console.log(score)
+        }
+        $('#sco').text(score);
     }
 </script>
 </html>

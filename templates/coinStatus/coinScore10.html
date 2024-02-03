@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include './header.html' %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Raise Coins</title>
 </head>
 <body>
+<div id="commonTopHeader">
+    {% include './comTopHeader.html' %}
+</div>
+
+<div id="commonBodyContents">
+    {% include './sideMenu.html' %}
+
+    <div id="commonContent">
+        <div class="container">
 <div>
-    {{results|tojson}}
+    {%for line in results %}
+        {{ line }} <br>
+    {% endfor %}
+</div>
+        </div>
+    </div>
 </div>
 </body>
+<script>
+    $(document).ready(function () {
+        document.getElementById("m10").setAttribute("href","/coinScore10")
+        document.getElementById("m30").setAttribute("href","/coinScore20")
+        document.getElementById("m60").setAttribute("href","/coinScore30")
+    });
+</script>
 </html>

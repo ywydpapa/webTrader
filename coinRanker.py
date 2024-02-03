@@ -13,46 +13,30 @@ envdb = 'swc'
 envport = 8086
 client = InfluxDBClient(envhost,envport, envuser, envpassword, envdb)
 
-access = "AT7HeOx48ZzzRDTO5y6FA2Lmw12ufGHwWArU5xVz"
-secret = "b4Qg0uZaapuTk18Q7qESC4AQIVboTI9HAhduY4SD"
-upbit = pyupbit.Upbit(access, secret)
-cnt2 = 1
 while True:
     coinNames = pyupbit.get_tickers()
     for coinName in coinNames:
         if coinName.startswith("KRW"):
-            curprice = pyupbit.get_orderbook(coinName)
-            print(coinName)
-            timest = curprice['timestamp']
-            times = str(timest)
-            times = times[0:10]
-            timestm = datetime.fromtimestamp(int(times))
-            print(timestm)
-            totalask = curprice['total_ask_size']
-            print(totalask)
-            totalbid = curprice['total_bid_size']
-            print(totalbid)
-            buyrate = totalask / totalbid * 100
-            print("BuyRate : ", buyrate)
-            if totalbid > totalask:
-                mktsts = 'DOWN'
-            else:
-                mktsts = 'RAISE'
-            units = curprice['orderbook_units']
-            cnt = 1
-            for unit in units:
-                measurement = 'CoinStatus'
-                askrate = float(unit['ask_size'])/float(totalask)*100
-                bidrate = float(unit['bid_size'])/float(totalbid)*100
-                tags = {'COIN':coinName, 'TimeStamp': timestm , 'AskAmt':totalask, 'BidAmt': totalbid, 'BuyRate': buyrate, 'MarketStatus': mktsts, 'Serial':cnt}
-                fields = {'ask_price':float(unit['ask_price']),'bid_price':float(unit['bid_price']),'ask_size':float(unit['ask_size']),
-                          'bid_size':float(unit['bid_size']), 'ask_rate': float(askrate), 'bid_rate':float(bidrate)}
-                insdata = [{'measurement': measurement,'tags': tags, 'fields': fields}]
-                client.write_points(insdata)
-                cnt = cnt+1
-            print(cnt2)
-            time.sleep(0.5)
-
+            sql = "SELECT * FROM CoinStatus where Serial = '1' and COIN = "+"'"+coinName+"'"+" order by time desc limit 30 tz('Asia/Seoul')"
+            row = list(client.query(sql))
+            score = 100
+            for i in range(29,-1,-1):
+                line = row[0][i]
+                score = score * float(line["BuyRate"])/100
+                if score < 10:
+                    score = score + 5
+                elif score > 1000:
+                    score = score/3
+            print(line["COIN"])
+            print("SCORE : ",score)
+            print(line["ask_price"])
+            print(line["TimeStamp"])
+            measurement = 'CoinRank'
+            tags = {'COIN':line["COIN"], 'TimeStamp':line["TimeStamp"]}
+            fields = {'Score': score, 'Price':line["ask_price"]}
+            insdata = [{'measurement':measurement, 'tags':tags, 'fields':fields}]
+            client.write_points(insdata)
         else:
             pass
-    cnt2=cnt2+1
+    client.close()
+    time.sleep(60)

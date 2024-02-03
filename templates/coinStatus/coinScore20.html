@@ -21,7 +21,7 @@
     <td>{{ results[0]["TimeStamp"]}}</td>
     </tr>
     {%for line in results %}
-    {% if loop.index <=10 %}
+    {% if loop.index <=20 %}
      <tr>
        <td> {{loop.index}} </td>
        <td><a href ="/coin10/{{ line["COIN"]}}" >{{ line["COIN"] }}</a></td>
@@ -32,6 +32,7 @@
     {% endfor %}
     </table>
 </div>
+
         </div>
     </div>
 </div>

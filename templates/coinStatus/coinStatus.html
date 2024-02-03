@@ -17,7 +17,9 @@
         <div class="container">
         선택 코인: {{ results["series"][0]["values"][0][4] }}<br>
             <canvas id="hourChart" height="100"></canvas>
-            코인 점수 : <div id = "sco"></div>
+            코인 점수 : <div id = "sco"></div><br>
+            가격 변동
+            <canvas id="priceChart" height="100"></canvas>
         </div>
     </div>
 </div>
@@ -64,6 +66,44 @@
                         label: "매수/매도비율",
                         data: dataArr,
                         backgroundColor: colorArr,
+                        radius: 0,
+                        borderWidth: 1,
+                    },
+                ],
+            },
+        });
+    }
+
+        function priceChartSet() {
+        let priceChart = document.getElementById("priceChart").getContext('2d');
+        let price = {{results|tojson}};
+        let dateArr2 = [];
+        let dataArr2 = [];
+        let colorArr2 = [];
+        let KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+
+        for (let j = 0; j < price["series"][0]["values"].length; j++) {
+            let item2 = price["series"][0]["values"][j];
+            let setDate2= new Date(item2[7]).getTime();
+            setDate2 = setDate2 + KR_TIME_DIFF;
+            setDate2 = new Date(setDate2).toISOString();
+            let date2 = setDate2.substring(5, 10) + " " + setDate2.substring(11, 19);
+            let value2 = item[3];
+            dateArr2.unshift(date2);
+            dataArr2.unshift(value2);
+            if(value2 >= 100) colorArr2.unshift("#F15F5F")
+            else colorArr2.unshift("#6799FF");
+        }
+
+        new Chart(priceChart, {
+            type: "bar",
+            data: {
+                labels: dateArr2,
+                datasets: [
+                    {
+                        label: "가격 변동",
+                        data: dataArr2,
+                        backgroundColor: colorArr2,
                         radius: 0,
                         borderWidth: 1,
                     },

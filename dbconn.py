@@ -3,7 +3,7 @@ from influxdb import InfluxDBClient
 import pyupbit
 from flask import jsonify
 
-host = 'swc9004.iptime.org'
+host = 'localhost'
 port = 8086
 user = 'root'
 password = 'root'
@@ -80,13 +80,13 @@ def getScore10():
     rows = []
     coinlist = pyupbit.get_tickers()
     client = InfluxDBClient(host, port, user, password, dbname)
+    cnt = 0
     for coin in coinlist:
         if coin.startswith("KRW"):
-            sql = "SELECT * FROM CoinStatus where Serial = '1' and COIN = "+"'"+coin+"'"+" order by time desc limit 10 tz('Asia/Seoul')"
-            row = list(client.query(sql))
-            rows = rows + row
+            cnt = cnt +1
         else:
             pass
+    sql = "SELECT * FROM CoinRank order by time desc limit "+ str(cnt) +" tz('Asia/Seoul')"
+    row = list(client.query(sql))
+    rows = sorted(row, key=lambda row: (-row['Score']))
     client.close()
-    print(rows)
-    return rows;

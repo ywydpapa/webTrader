@@ -32,9 +32,9 @@ while True:
             print(totalask)
             totalbid = curprice['total_bid_size']
             print(totalbid)
-            buyrate = totalask / totalbid * 100
+            buyrate = totalbid / totalask * 100
             print("BuyRate : ", buyrate)
-            if totalbid > totalask:
+            if totalbid < totalask:
                 mktsts = 'DOWN'
             else:
                 mktsts = 'RAISE'
@@ -51,8 +51,7 @@ while True:
                 client.write_points(insdata)
                 cnt = cnt+1
             print(cnt2)
-            time.sleep(0.5)
-
+            time.sleep(0.3)
         else:
             pass
     cnt2=cnt2+1

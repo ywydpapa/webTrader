@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './header.html' %}
+    <meta charset="UTF-8">
+    <title>Raise Coins</title>
+</head>
+<body>
+<div id="commonTopHeader">
+    {% include './comTopHeader.html' %}
+</div>
+
+<div id="commonBodyContents">
+    {% include './sideMenu.html' %}
+
+    <div id="commonContent">
+        <div class="container">
+<div id="Rank">
+    <table>
+    <tr>
+    <td>{{ results[0]["TimeStamp"]}}</td>
+    </tr>
+    {%for line in results %}
+    {% if loop.index <=10 %}
+     <tr>
+       <td> {{ line }} </td>
+     </tr>
+    {% endif %}
+    {% endfor %}
+    </table>
+</div>
+<div id="Trade">
+
+</div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        document.getElementById("m10").setAttribute("href","/coinScore10")
+        document.getElementById("m10").innerText = "Top 10"
+        document.getElementById("m30").setAttribute("href","/coinScore20")
+        document.getElementById("m30").innerText = "Top 20"
+        document.getElementById("m60").setAttribute("href","/coinScore30")
+        document.getElementById("m60").innerText = "Top 30"
+
+    });
+
+</script>
+</html>

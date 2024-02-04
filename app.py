@@ -48,6 +48,9 @@ def coinScore20():
 def coinScore30():
     return render_template('./coinStatus/coinScore30.html', results=dbconn.getScore10())
 
+@app.route('/startTrade')
+def startTrade():
+    return render_template('./coinStatus/autoResult.html', results=dbconn.buy10())
 @app.route('/setup')
 def setup():
     return render_template('./setup/setupmain.html')

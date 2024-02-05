@@ -3,7 +3,7 @@ from influxdb import InfluxDBClient
 import pyupbit
 from flask import jsonify
 
-host = 'localhost'
+host = 'swc9004.iptime.org'
 port = 8086
 user = 'root'
 password = 'root'
@@ -88,8 +88,10 @@ def getScore10():
             pass
     sql = "SELECT * FROM CoinRank order by time desc limit "+ str(cnt) +" tz('Asia/Seoul')"
     row = list(client.query(sql))
+    row = row[0]
     rows = sorted(row, key=lambda row: (-row['Score']))
     client.close()
+    return rows;
 
 def buy10():
     access = "AT7HeOx48ZzzRDTO5y6FA2Lmw12ufGHwWArU5xVz"
@@ -110,6 +112,7 @@ def buy10():
             pass
     sql = "SELECT * FROM CoinRank order by time desc limit "+ str(cnt) +" tz('Asia/Seoul')"
     row = list(client.query(sql))
+    print(row)
     row = row[0]
     rows = sorted(row, key=lambda row: (-row['Score']))
     client.close()
@@ -123,5 +126,4 @@ def buy10():
         print(coin)
         ret = upbit.buy_market_order(coin,10000)
         print(ret)
-        order = order + ret
-    return order;
+    return rows;

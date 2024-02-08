@@ -1,15 +1,17 @@
 from flask import Flask, jsonify, request, render_template, redirect, session, flash, url_for
 import dbconn
+import dbconn
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def hello_world():  # put application's code here
+def home():
+    return render_template('./login/login.html')
+@app.route('/start')
+def hello_world():
     return render_template('./index.html', coinlist = dbconn.coinCombo())
 
 @app.route('/coinrate')
-def indexrate():  # put application's code here
+def indexrate():
     return render_template('./indexrate.html', coinlist = dbconn.coinCombo())
 
 @app.route('/coin60/<coinName>')
@@ -49,11 +51,39 @@ def coinScore30():
     return render_template('./coinStatus/coinScore30.html', results=dbconn.getScore10())
 
 @app.route('/startTrade')
-def startTrade():
-    return render_template('./coinStatus/autoResult.html', results=dbconn.buy10())
+def buy10():
+    return render_template('./coinStatus/autoResult10.html', results=dbconn.buy10())
+
+@app.route('/startSell')
+def sell10():
+    return render_template('./coinStatus/sellResult.html', results=dbconn.sell10())
+
 @app.route('/setup')
 def setup():
     return render_template('./setup/setupmain.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('./login/login.html')
+    else:
+        uid = request.form.get('uid')
+        upw = request.form.get('upw')
+        row = dbconn.selectUsers(uid, upw)
+        if row:
+            session['userNo'] = row['userNo']
+            session['userName'] = row['userName']
+            session['userRole'] = row['userRole']
+            return redirect('/start')
+        else:
+            return '''
+                <script>
+                    // 경고창 
+                    alert("로그인 실패, 다시 시도하세요")
+                    // 이전페이지로 이동
+                    history.back()
+                </script>
+            '''
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5005)

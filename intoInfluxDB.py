@@ -2,8 +2,6 @@ import pyupbit
 import time
 from datetime import datetime
 from influxdb import InfluxDBClient
-import json
-import numpy
 
 
 envhost = 'localhost'
@@ -12,11 +10,8 @@ envpassword = 'root'
 envdb = 'swc'
 envport = 8086
 client = InfluxDBClient(envhost,envport, envuser, envpassword, envdb)
-
-access = "AT7HeOx48ZzzRDTO5y6FA2Lmw12ufGHwWArU5xVz"
-secret = "b4Qg0uZaapuTk18Q7qESC4AQIVboTI9HAhduY4SD"
-upbit = pyupbit.Upbit(access, secret)
 cnt2 = 1
+
 while True:
     coinNames = pyupbit.get_tickers()
     for coinName in coinNames:
@@ -51,7 +46,9 @@ while True:
                 client.write_points(insdata)
                 cnt = cnt+1
             print(cnt2)
-            time.sleep(0.3)
         else:
             pass
+
     cnt2=cnt2+1
+    if cnt2 > 1000:
+        break
